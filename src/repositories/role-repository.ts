@@ -1,20 +1,86 @@
 // in memory repository
 
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { IRoleRepository } from 'src/interfaces/role-repository.interface';
 import { Role } from 'src/models/role.model';
 
 @Injectable()
 export class RoleRepository implements IRoleRepository {
+  private static instance: RoleRepository;
   private roles: Map<string, Role> = new Map();
 
-  async save(role: Role): Promise<Role> {
+  constructor() {
+    if (!RoleRepository.instance) {
+      RoleRepository.instance = this;
+    }
+
+    return RoleRepository.instance;
+  }
+
+  private async validateRole(
+    role: Role,
+    isPermissionUpdate: boolean,
+  ): Promise<void> {
+    if (!isPermissionUpdate) {
+      const existingRole = await this.findByName(role.name);
+      if (existingRole)
+        throw new BadRequestException('Role name already exists');
+    }
+
+    if (role.parentRoleId) {
+      const parentRole = await this.findById(role.parentRoleId);
+      if (!parentRole) {
+        throw new NotFoundException(
+          `Parent role with id ${role.parentRoleId} not found`,
+        );
+      }
+
+      if (role.parentRoleId === role.id) {
+        throw new BadRequestException('Role cannot be its own parent');
+      }
+    }
+  }
+
+  async save(role: Role, isPermissionUpdate: boolean): Promise<Role> {
+    await this.validateRole(role, isPermissionUpdate);
     this.roles.set(role.id, role);
     return role;
   }
 
+  async update(
+    roleId: string,
+    roleName: string,
+    parentRoleId: string | null,
+    isPermissionUpdate: boolean,
+  ): Promise<Role> {
+    const role = await this.findById(roleId);
+    if (!role) throw new NotFoundException('Role not found');
+
+    const updatedRole = new Role(
+      roleId,
+      roleName,
+      parentRoleId,
+      role.permissions,
+    );
+
+    await this.validateRole(updatedRole, isPermissionUpdate);
+
+    this.roles.set(roleId, updatedRole);
+    return updatedRole;
+  }
+
   async findById(id: string): Promise<Role | null> {
     return this.roles.get(id) || null;
+  }
+
+  async findByName(name: string): Promise<Role | null> {
+    const roles = await this.findAll();
+    const existingRole = roles.find((role) => role.name === name);
+    return existingRole;
   }
 
   async findAll(): Promise<Role[]> {
