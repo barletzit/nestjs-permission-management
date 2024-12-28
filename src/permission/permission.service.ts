@@ -1,7 +1,6 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { CreateRoleDto } from 'src/dtos/create-role.dto';
 import {
   IRoleRepository,
   ROLE_REPOSITORY,
@@ -25,21 +24,6 @@ export class PermissionService {
 
   private getCacheKey(roleId: string) {
     return `${CacheKeys.RolePermissions}_${roleId}`;
-  }
-
-  async createRole({
-    name,
-    parentRoleId,
-    permissions,
-  }: CreateRoleDto): Promise<Role> {
-    const role = new Role(
-      crypto.randomUUID(),
-      name,
-      parentRoleId,
-      new Set(permissions),
-    );
-
-    return this.roleRepository.save(role, false);
   }
 
   async getRolePermissions(roleId: string): Promise<Set<string>> {

@@ -5,6 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { UpdateRoleDto } from 'src/dtos/update-role.dto';
 import { IRoleRepository } from 'src/interfaces/role-repository.interface';
 import { Role } from 'src/models/role.model';
 
@@ -51,19 +52,21 @@ export class RoleRepository implements IRoleRepository {
     return role;
   }
 
-  async update(
-    roleId: string,
-    roleName: string,
-    parentRoleId: string | null,
-    isPermissionUpdate: boolean,
-  ): Promise<Role> {
+  async update({
+    roleId,
+    name,
+    parentRoleId,
+    isPermissionUpdate,
+  }: UpdateRoleDto): Promise<Role> {
     const role = await this.findById(roleId);
     if (!role) throw new NotFoundException('Role not found');
 
+    const newRoleName = name ?? role.name;
+    const newRoleParentId = parentRoleId ?? role.parentRoleId;
     const updatedRole = new Role(
       roleId,
-      roleName,
-      parentRoleId,
+      newRoleName,
+      newRoleParentId,
       role.permissions,
     );
 
