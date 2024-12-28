@@ -15,4 +15,8 @@ export class UserService {
     const user = new User(crypto.randomUUID(), name, roleId);
     return this.userRepository.save(user);
   }
+
+  async findById(id: string): Promise<User> {
+    return this.userRepository.findById(id);
+  }
 }

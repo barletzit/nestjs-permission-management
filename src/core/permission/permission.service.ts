@@ -2,26 +2,18 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { AuditLogService } from 'src/core/audit-log/audit-log.service';
-import {
-  IRoleRepository,
-  ROLE_REPOSITORY,
-} from 'src/interfaces/role-repository.interface';
-import {
-  IUserRepository,
-  USER_REPOSITORY,
-} from 'src/interfaces/user-repository.interface';
 import { Role } from 'src/models/role.model';
 import { AuditActionType, CacheKeys } from 'src/types';
+import { RoleService } from '../role/role.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class PermissionService {
   constructor(
-    @Inject(ROLE_REPOSITORY)
-    private readonly roleRepository: IRoleRepository,
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: IUserRepository,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly roleService: RoleService,
+    private readonly userService: UserService,
     private readonly auditLogService: AuditLogService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   private getCacheKey(roleId: string) {
@@ -46,7 +38,7 @@ export class PermissionService {
   }
 
   private async calculateRolePermissions(roleId: string): Promise<Set<string>> {
-    const role = await this.roleRepository.findById(roleId);
+    const role = await this.roleService.findBy({ id: roleId });
 
     if (!role) {
       throw new NotFoundException('Role not found');
@@ -68,7 +60,7 @@ export class PermissionService {
     userId: string,
     permission: string,
   ): Promise<boolean> {
-    const user = await this.userRepository.findById(userId);
+    const user = await this.userService.findById(userId);
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -82,7 +74,7 @@ export class PermissionService {
     permission: string,
     userId: string,
   ): Promise<Role> {
-    const role = await this.roleRepository.findById(roleId);
+    const role = await this.roleService.findBy({ id: roleId });
     if (!role) {
       throw new NotFoundException('Role not found');
     }
@@ -103,7 +95,11 @@ export class PermissionService {
     const cacheKey = this.getCacheKey(roleId);
     console.log('deleting cached role permissions...');
     this.cacheManager.del(cacheKey);
-    return this.roleRepository.save(role, true);
+    return this.roleService.createRole({
+      name: role.name,
+      parentRoleId: role.parentRoleId,
+      permissions: Array.from(role.permissions),
+    });
   }
 
   async revokePermissionToRole(
@@ -111,7 +107,7 @@ export class PermissionService {
     permission: string,
     userId: string,
   ): Promise<Role> {
-    const role = await this.roleRepository.findById(roleId);
+    const role = await this.roleService.findBy({ id: roleId });
     if (!role) {
       throw new NotFoundException('Role not found');
     }
@@ -132,6 +128,10 @@ export class PermissionService {
     const cacheKey = this.getCacheKey(roleId);
     console.log('deleting cached role permissions...');
     this.cacheManager.del(cacheKey);
-    return this.roleRepository.save(role, true);
+    return this.roleService.createRole({
+      name: role.name,
+      parentRoleId: role.parentRoleId,
+      permissions: Array.from(role.permissions),
+    });
   }
 }

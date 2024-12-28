@@ -10,5 +10,6 @@ import { ROLE_REPOSITORY } from 'src/interfaces/role-repository.interface';
     { provide: ROLE_REPOSITORY, useClass: RoleRepository },
   ],
   controllers: [RoleController],
+  exports: [RoleService],
 })
 export class RoleModule {}
