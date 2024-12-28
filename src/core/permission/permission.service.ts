@@ -1,7 +1,7 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { AuditLogService } from 'src/audit-log/audit-log.service';
+import { AuditLogService } from 'src/core/audit-log/audit-log.service';
 import {
   IRoleRepository,
   ROLE_REPOSITORY,

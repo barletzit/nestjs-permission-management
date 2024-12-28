@@ -5,7 +5,7 @@ import { ROLE_REPOSITORY } from 'src/interfaces/role-repository.interface';
 import { USER_REPOSITORY } from 'src/interfaces/user-repository.interface';
 import { RoleRepository } from 'src/repositories/role-repository';
 import { UserRepository } from 'src/repositories/user-repository';
-import { AuditLogModule } from 'src/audit-log/audit-log.module';
+import { AuditLogModule } from 'src/core/audit-log/audit-log.module';
 
 @Module({
   imports: [AuditLogModule],
