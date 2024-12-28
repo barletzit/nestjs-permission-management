@@ -21,3 +21,7 @@ export const auditTarget = {
 } as const;
 
 export type AuditTargetType = keyof typeof auditTarget;
+
+export enum Permissions {
+  ManagePermissions = 'manage_permissions',
+}

@@ -1,8 +1,14 @@
-import { Controller, Get, Param, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Param, Put, Delete, UseGuards } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { Role } from 'src/models/role.model';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { PermissionGuard } from 'src/guards/permission.guard';
+import { RequirePermissions } from 'src/decorators/required-permissions.decorator';
+import { Permissions } from 'src/types';
+import { CurrentUserId } from 'src/decorators/current-user-id.decorator';
 
 @Controller('permissions')
+@UseGuards(AuthGuard, PermissionGuard)
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
@@ -21,10 +27,11 @@ export class PermissionController {
   }
 
   @Put('roles/:roleId/permissions/:permission')
+  @RequirePermissions(Permissions.ManagePermissions)
   async grantPermission(
     @Param('roleId') roleId: string,
     @Param('permission') permission: string,
-    @Body() userId: string,
+    @CurrentUserId() userId: string,
   ): Promise<Role> {
     return this.permissionService.grantPermissionToRole(
       roleId,
@@ -34,10 +41,11 @@ export class PermissionController {
   }
 
   @Delete('roles/:roleId/permissions/:permission')
+  @RequirePermissions(Permissions.ManagePermissions)
   async revokePermission(
     @Param('roleId') roleId: string,
     @Param('permission') permission: string,
-    @Body() userId: string,
+    @CurrentUserId() userId: string,
   ): Promise<Role> {
     return this.permissionService.revokePermissionToRole(
       roleId,
