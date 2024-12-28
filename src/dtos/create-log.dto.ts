@@ -1,4 +1,4 @@
-import { AuditActionType, AuditTargetType } from 'src/types';
+import { AuditActionType, AuditTargetType } from '../types';
 
 export class CreateLogDto {
   actionType: AuditActionType;

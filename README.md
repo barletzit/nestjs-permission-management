@@ -7,3 +7,4 @@ High level design of permission management (in memory) system that supports:
   - When changes occurred
   - Complete change history with rollback capabilities
   - Compliance reporting functionality
+- Permission request approval workflow

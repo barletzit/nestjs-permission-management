@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IAuditRepository } from 'src/interfaces/audit-log-repository.interface';
 import { AuditLog } from 'src/models/audit-log.model';
-import { AuditActionType } from 'src/types';
-
-export const AUDIT_LOG_REPOSITORY = 'AUDIT_LOG_REPOSITORY';
+import { AuditActionType } from '../types';
 
 @Injectable()
 export class AuditLogRepository implements IAuditRepository {

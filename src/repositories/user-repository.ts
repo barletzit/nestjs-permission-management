@@ -1,7 +1,7 @@
 // in memory repository
 import { Injectable } from '@nestjs/common';
-import { IUserRepository } from 'src/interfaces/user-repository.interface';
-import { User } from 'src/models/user.model';
+import { IUserRepository } from '../interfaces/user-repository.interface';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class UserRepository implements IUserRepository {

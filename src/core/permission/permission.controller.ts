@@ -1,11 +1,11 @@
 import { Controller, Get, Param, Put, Delete, UseGuards } from '@nestjs/common';
 import { PermissionService } from './permission.service';
-import { Role } from 'src/models/role.model';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { PermissionGuard } from 'src/guards/permission.guard';
-import { RequirePermissions } from 'src/decorators/required-permissions.decorator';
-import { Permissions } from 'src/types';
-import { CurrentUserId } from 'src/decorators/current-user-id.decorator';
+import { Role } from '../../models/role.model';
+import { AuthGuard } from '../../guards/auth.guard';
+import { PermissionGuard } from '../../guards/permission.guard';
+import { RequirePermissions } from '../../decorators/required-permissions.decorator';
+import { Permissions } from '../../types';
+import { CurrentUserId } from '../../decorators/current-user-id.decorator';
 
 @Controller('permissions')
 @UseGuards(AuthGuard, PermissionGuard)

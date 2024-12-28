@@ -8,8 +8,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CreateRoleDto } from 'src/dtos/create-role.dto';
-import { Role } from 'src/models/role.model';
+import { CreateRoleDto } from '../../dtos/create-role.dto';
+import { Role } from '../../models/role.model';
 import { RoleService } from './role.service';
 import { FindRoleQuery } from 'src/dtos/find-role-query.dto';
 

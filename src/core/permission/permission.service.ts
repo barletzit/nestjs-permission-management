@@ -1,9 +1,9 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { AuditLogService } from 'src/core/audit-log/audit-log.service';
-import { Role } from 'src/models/role.model';
-import { AuditActionType, CacheKeys } from 'src/types';
+import { AuditLogService } from '../audit-log/audit-log.service';
+import { Role } from '../../models/role.model';
+import { AuditActionType, CacheKeys } from '../../types';
 import { RoleService } from '../role/role.service';
 import { UserService } from '../user/user.service';
 

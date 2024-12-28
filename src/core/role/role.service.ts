@@ -1,12 +1,12 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { CreateRoleDto } from 'src/dtos/create-role.dto';
-import { UpdateRoleDto } from 'src/dtos/update-role.dto';
+import { CreateRoleDto } from '../../dtos/create-role.dto';
+import { UpdateRoleDto } from '../../dtos/update-role.dto';
 import {
   IRoleRepository,
   ROLE_REPOSITORY,
-} from 'src/interfaces/role-repository.interface';
-import { Role } from 'src/models/role.model';
-import { FindByParams } from 'src/types';
+} from '../../interfaces/role-repository.interface';
+import { Role } from '../../models/role.model';
+import { FindByParams } from '../../types';
 
 @Injectable()
 export class RoleService {

@@ -1,12 +1,10 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import {
-  AUDIT_LOG_REPOSITORY,
-  AuditLogRepository,
-} from 'src/repositories/audit-log-repository';
+import { AuditLogRepository } from '../../repositories/audit-log-repository';
 import { Cache } from 'cache-manager';
-import { CreateLogDto } from 'src/dtos/create-log.dto';
-import { AuditLog } from 'src/models/audit-log.model';
+import { CreateLogDto } from '../../dtos/create-log.dto';
+import { AuditLog } from '../..//models/audit-log.model';
+import { AUDIT_LOG_REPOSITORY } from 'src/interfaces/audit-log-repository.interface';
 
 @Injectable()
 export class AuditLogService {

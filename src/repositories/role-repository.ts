@@ -5,9 +5,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UpdateRoleDto } from 'src/dtos/update-role.dto';
-import { IRoleRepository } from 'src/interfaces/role-repository.interface';
-import { Role } from 'src/models/role.model';
+import { UpdateRoleDto } from '../dtos/update-role.dto';
+import { IRoleRepository } from '../interfaces/role-repository.interface';
+import { Role } from '../models/role.model';
 
 @Injectable()
 export class RoleRepository implements IRoleRepository {

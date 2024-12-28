@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AuditLogService } from './audit-log.service';
-import { AuditLog } from 'src/models/audit-log.model';
+import { AuditLog } from '../../models/audit-log.model';
 
 @Controller('audit')
 export class AuditLogController {

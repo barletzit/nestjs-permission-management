@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { Permissions } from 'src/types';
+import { Permissions } from '../types';
 
 export const PERMISSIONS = 'permissions';
 

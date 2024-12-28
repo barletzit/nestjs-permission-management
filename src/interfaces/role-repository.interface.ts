@@ -1,5 +1,5 @@
 import { UpdateRoleDto } from 'src/dtos/update-role.dto';
-import { Role } from 'src/models/role.model';
+import { Role } from '../models/role.model';
 
 export const ROLE_REPOSITORY = 'ROLE_REPOSITORY';
 
