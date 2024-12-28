@@ -12,5 +12,6 @@ import {
     { provide: AUDIT_LOG_REPOSITORY, useClass: AuditLogRepository },
   ],
   controllers: [AuditLogController],
+  exports: [AuditLogService],
 })
 export class AuditLogModule {}

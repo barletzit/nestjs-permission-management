@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Put, Delete, Body } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { Role } from 'src/models/role.model';
 
@@ -24,15 +24,25 @@ export class PermissionController {
   async grantPermission(
     @Param('roleId') roleId: string,
     @Param('permission') permission: string,
+    @Body() userId: string,
   ): Promise<Role> {
-    return this.permissionService.grantPermissionToRole(roleId, permission);
+    return this.permissionService.grantPermissionToRole(
+      roleId,
+      permission,
+      userId,
+    );
   }
 
   @Delete('roles/:roleId/permissions/:permission')
   async revokePermission(
     @Param('roleId') roleId: string,
     @Param('permission') permission: string,
+    @Body() userId: string,
   ): Promise<Role> {
-    return this.permissionService.revokePermissionToRole(roleId, permission);
+    return this.permissionService.revokePermissionToRole(
+      roleId,
+      permission,
+      userId,
+    );
   }
 }

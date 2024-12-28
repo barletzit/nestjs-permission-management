@@ -5,7 +5,7 @@ export class AuditLog {
     public id: string,
     public actionType: AuditActionType,
     public performedBy: string, // userId
-    public targetId: string, // the target type id
+    public targetId: string, // roleId/userId/permissionId
     public targetType: AuditTargetType,
     public changes: { before: unknown; after: unknown },
     public timestamp: Date,

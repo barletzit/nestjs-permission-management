@@ -16,9 +16,8 @@ export enum AuditActionType {
 }
 
 export const auditTarget = {
-  role: 'ROLE',
-  user: 'USER',
-  permission: 'PERMISSION',
+  ROLE: 'ROLE',
+  USER: 'USER',
 } as const;
 
 export type AuditTargetType = keyof typeof auditTarget;
